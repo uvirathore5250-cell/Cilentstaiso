@@ -5,138 +5,85 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>TAISO DSR - Enquiry Log</title>
     <script src="https://cdn.tailwindcss.com"></script>
-    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@400;700&family=Inter:wght@300;400;600&display=swap" rel="stylesheet">
+    <link href="https://fonts.googleapis.com/css2?family=Orbitron:wght@700&family=Inter:wght@400;600&display=swap" rel="stylesheet">
     <style>
-        body { 
-            background-color: #0a0a0a; 
-            font-family: 'Inter', sans-serif; 
-            color: #ffffff; 
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            min-height: 100vh;
-            margin: 0;
-            padding: 20px;
-        }
-        .header-font { font-family: 'Orbitron', sans-serif; }
-        .gold-border { border: 1px solid #c5a059; }
+        body { background-color: #0a0a0a; font-family: 'Inter', sans-serif; color: #ffffff; display: flex; align-items: center; justify-content: center; min-height: 100vh; margin: 0; padding: 20px; }
         .gold-text { color: #c5a059; }
-        .gold-bg { background-color: #c5a059; }
-        
-        .card {
-            background-color: #141414;
-            border-radius: 12px;
-            box-shadow: 0 10px 40px rgba(0,0,0,0.8);
-            border: 1px solid #222;
-        }
-
-        input, textarea {
-            background-color: #1e1e1e !important;
-            border: 1px solid #333 !important;
-            color: #fff !important;
-            transition: all 0.3s ease;
-        }
-
-        input:focus, textarea:focus {
-            border-color: #c5a059 !important;
-            box-shadow: 0 0 8px rgba(197, 160, 89, 0.2);
-            outline: none;
-        }
-
-        .submit-btn {
-            background-color: transparent;
-            border: 1px solid #c5a059;
-            color: #c5a059;
-            letter-spacing: 2px;
-            transition: all 0.4s;
-        }
-
-        .submit-btn:hover {
-            background-color: #c5a059;
-            color: #000;
-        }
+        .gold-border { border: 1px solid #c5a059; }
+        .card { background-color: #141414; border-radius: 12px; border: 1px solid #222; width: 100%; max-width: 450px; padding: 35px; }
+        input, textarea { background-color: #1e1e1e !important; border: 1px solid #333 !important; color: #fff !important; width: 100%; padding: 12px; border-radius: 8px; outline: none; margin-bottom: 20px; }
+        input:focus { border-color: #c5a059 !important; }
+        .btn { border: 1px solid #c5a059; color: #c5a059; width: 100%; padding: 15px; border-radius: 8px; font-weight: bold; letter-spacing: 2px; transition: 0.3s; cursor: pointer; }
+        .btn:hover { background-color: #c5a059; color: #000; }
+        .label { font-size: 10px; font-weight: bold; color: #c5a059; text-transform: uppercase; margin-bottom: 5px; display: block; letter-spacing: 1px; }
     </style>
 </head>
 <body>
 
-    <div class="card w-full max-w-md p-8">
-        <div class="text-center mb-8 border-b border-[#222] pb-6">
-            <h1 class="header-font text-2xl font-bold gold-text tracking-widest uppercase">TAISO DSR</h1>
-            <div class="w-16 h-0.5 gold-bg mx-auto mt-2"></div>
-            <p class="text-gray-500 text-[10px] mt-4 uppercase tracking-[0.3em]">Enquiry Management System</p>
+    <div class="card shadow-2xl">
+        <div class="text-center mb-10">
+            <h1 style="font-family: 'Orbitron';" class="text-2xl gold-text tracking-widest">TAISO DSR</h1>
+            <p class="text-gray-500 text-[10px] tracking-[0.2em] mt-2 uppercase">Data Synchronization Portal</p>
         </div>
 
-        <form id="dsr-form" class="space-y-5">
-            <div>
-                <label class="block text-[10px] font-bold gold-text uppercase tracking-widest mb-1">Customer Name</label>
-                <input type="text" name="Name" placeholder="Enter Full Name" class="w-full p-3 rounded-md text-sm" required>
-            </div>
+        <form id="enquiryForm">
+            <label class="label">Customer Name</label>
+            <input type="text" name="Name" placeholder="Full Name" required>
 
-            <div>
-                <label class="block text-[10px] font-bold gold-text uppercase tracking-widest mb-1">Phone Number</label>
-                <input type="tel" name="Phone" placeholder="Mobile Number" class="w-full p-3 rounded-md text-sm" required>
-            </div>
+            <label class="label">Phone Number</label>
+            <input type="tel" name="Phone" placeholder="91XXXXXXXX" required>
 
-            <div>
-                <label class="block text-[10px] font-bold gold-text uppercase tracking-widest mb-1">Next Follow-up Date</label>
-                <input type="date" name="NextUpdate" class="w-full p-3 rounded-md text-sm" required>
-            </div>
+            <label class="label">Next Follow-up Date</label>
+            <input type="date" name="NextUpdate" required>
 
-            <div>
-                <label class="block text-[10px] font-bold gold-text uppercase tracking-widest mb-1">Discussion Details</label>
-                <textarea name="Discussion" rows="4" placeholder="Summarize the conversation..." class="w-full p-3 rounded-md text-sm resize-none" required></textarea>
-            </div>
+            <label class="label">Discussion Details</label>
+            <textarea name="Discussion" rows="4" placeholder="Summary of call..." required></textarea>
 
-            <button type="submit" id="submit-btn" class="submit-btn w-full py-4 rounded-md font-bold text-xs uppercase mt-4">
-                Save Entry
-            </button>
+            <button type="submit" id="submitBtn" class="btn uppercase">Save Entry</button>
         </form>
 
-        <div id="status" class="mt-6 text-center text-[11px] font-medium hidden">
-            <p id="loading" class="text-gray-400 animate-pulse italic">Connecting to secure cloud...</p>
-            <div id="success" class="hidden text-green-500 bg-green-500/10 p-2 rounded border border-green-500/20">
-                ✔ ENTRY SYNCED SUCCESSFULLY
-            </div>
+        <div id="status" class="mt-5 text-center hidden">
+            <p id="statusMsg" class="text-xs font-bold"></p>
         </div>
     </div>
 
     <script>
         const scriptURL = 'https://script.google.com/macros/s/AKfycbyYxGiKOamogxbn4kqcOySjxA2WD7ov5ubmg2iXpFQ4X4ZeXBSnLJvrCl4TaBV0Deq3/exec';
-        const form = document.getElementById('dsr-form');
-        const btn = document.getElementById('submit-btn');
+        const form = document.getElementById('enquiryForm');
+        const btn = document.getElementById('submitBtn');
         const statusDiv = document.getElementById('status');
-        const loading = document.getElementById('loading');
-        const success = document.getElementById('success');
+        const statusMsg = document.getElementById('statusMsg');
 
         form.addEventListener('submit', e => {
             e.preventDefault();
-            
-            // UI State Update
             btn.disabled = true;
-            btn.innerHTML = "SYNCING...";
+            btn.innerHTML = "SENDING...";
             statusDiv.classList.remove('hidden');
-            loading.classList.remove('hidden');
-            success.classList.add('hidden');
+            statusMsg.style.color = "#c5a059";
+            statusMsg.innerHTML = "Attempting to write to Google Sheet...";
 
             fetch(scriptURL, { method: 'POST', body: new FormData(form)})
-                .then(response => {
-                    loading.classList.add('hidden');
-                    success.classList.remove('hidden');
-                    btn.disabled = false;
-                    btn.innerHTML = "SAVE ENTRY";
+            .then(response => response.json())
+            .then(data => {
+                console.log('Success!', data);
+                if(data.result === 'success') {
+                    statusMsg.style.color = "#22c55e";
+                    statusMsg.innerHTML = "✔ SUCCESS! DATA ADDED TO SHEET";
                     form.reset();
-                    
-                    // Auto-hide success message
-                    setTimeout(() => {
-                        statusDiv.classList.add('hidden');
-                    }, 5000);
-                })
-                .catch(error => {
-                    alert('Sync Failed! Check internet connection.');
-                    btn.disabled = false;
-                    btn.innerHTML = "SAVE ENTRY";
-                    statusDiv.classList.add('hidden');
-                });
+                } else {
+                    statusMsg.style.color = "#ef4444";
+                    statusMsg.innerHTML = "ERROR: " + (data.error || "Check Script Version");
+                }
+                btn.disabled = false;
+                btn.innerHTML = "SAVE ENTRY";
+            })
+            .catch(error => {
+                console.error('Error!', error.message);
+                statusMsg.style.color = "#ef4444";
+                statusMsg.innerHTML = "FAILED: Check Script Deployment Settings";
+                btn.disabled = false;
+                btn.innerHTML = "SAVE ENTRY";
+            });
         });
     </script>
 </body>
